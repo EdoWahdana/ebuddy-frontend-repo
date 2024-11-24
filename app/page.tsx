@@ -1,103 +1,111 @@
 import Image from "next/image";
 import Counter from "./components/Counter";
+import { Container, Box, Typography, Button, Stack, Link } from '@mui/material';
+import LaunchIcon from '@mui/icons-material/Launch';
+import CodeIcon from '@mui/icons-material/Code';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import SchoolIcon from '@mui/icons-material/School';
+import WebIcon from '@mui/icons-material/Web';
+import PublicIcon from '@mui/icons-material/Public';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <Counter />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <Container maxWidth="lg" sx={{ minHeight: '100vh', py: 4 }}>
+      <Box display="flex" flexDirection="column" gap={6} alignItems="center" my={4}>
+        <Box component="main" display="flex" flexDirection="column" gap={4} alignItems="center">
+          <Image
+            className="dark:invert"
+            src="https://nextjs.org/icons/next.svg"
+            alt="Next.js logo"
+            width={180}
+            height={38}
+            priority
+          />
+          
+          <Counter />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <Stack spacing={2} sx={{ typography: 'body1', fontFamily: 'var(--font-geist-mono)' }}>
+            <Box display="flex" gap={1} alignItems="center">
+              <CodeIcon fontSize="small" />
+              <Typography>
+                Get started by editing{" "}
+                <Box component="code" sx={{ 
+                  bgcolor: 'action.hover', 
+                  px: 1, 
+                  py: 0.5, 
+                  borderRadius: 1,
+                  fontWeight: 600 
+                }}>
+                  app/page.tsx
+                </Box>
+              </Typography>
+            </Box>
+            <Box display="flex" gap={1} alignItems="center">
+              <LaunchIcon fontSize="small" />
+              <Typography>
+                Save and see your changes instantly.
+              </Typography>
+            </Box>
+          </Stack>
+
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mt={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<WebIcon />}
+              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              target="_blank"
+              size="large"
+            >
+              Deploy now
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<MenuBookIcon />}
+              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              target="_blank"
+              size="large"
+            >
+              Read our docs
+            </Button>
+          </Stack>
+        </Box>
+
+        <Box component="footer" sx={{ mt: 'auto', py: 2 }}>
+          <Stack direction="row" spacing={4} justifyContent="center" flexWrap="wrap">
+            <Link
+              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+              underline="hover"
+            >
+              <SchoolIcon fontSize="small" />
+              Learn
+            </Link>
+            <Link
+              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+              underline="hover"
+            >
+              <WebIcon fontSize="small" />
+              Examples
+            </Link>
+            <Link
+              href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+              underline="hover"
+            >
+              <PublicIcon fontSize="small" />
+              Go to nextjs.org →
+            </Link>
+          </Stack>
+        </Box>
+      </Box>
+    </Container>
   );
 }

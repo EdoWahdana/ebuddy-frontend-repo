@@ -2,28 +2,41 @@
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { increment, decrement } from '../store/features/counterSlice';
+import { Box, Typography, Button, Paper } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 export default function Counter() {
   const count = useAppSelector((state) => state.counter.value);
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <h2 className="text-2xl font-bold">Counter: {count}</h2>
-      <div className="flex gap-4">
-        <button
-          onClick={() => dispatch(decrement())}
-          className="px-4 py-2 bg-red-500 text-white rounded-md"
-        >
-          Decrease
-        </button>
-        <button
-          onClick={() => dispatch(increment())}
-          className="px-4 py-2 bg-green-500 text-white rounded-md"
-        >
-          Increase
-        </button>
-      </div>
-    </div>
+    <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
+      <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
+        <Typography variant="h4" component="h2" fontWeight="bold">
+          Counter: {count}
+        </Typography>
+        <Box display="flex" gap={2}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => dispatch(decrement())}
+            startIcon={<RemoveIcon />}
+            size="large"
+          >
+            Decrease
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => dispatch(increment())}
+            startIcon={<AddIcon />}
+            size="large"
+          >
+            Increase
+          </Button>
+        </Box>
+      </Box>
+    </Paper>
   );
 }
