@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./store/provider";
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import { useMediaQuery } from '@mui/material';
+import { ThemeProvider, createTheme, CssBaseline, useMediaQuery } from '@mui/material';
 import { useMemo } from 'react';
 
 const geistSans = localFont({
