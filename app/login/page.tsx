@@ -18,6 +18,8 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
+import { User } from '../entities/user';
+import { registerUser } from '../apis/auth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -28,30 +30,20 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const googleProvider = new GoogleAuthProvider();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      dispatch(setUser({
-        name: result.user.displayName,
-        email: result.user.email
-      }));
-      router.push('/');
-    } catch (err) {
-      setError('Failed to login. Please check your credentials.');
-    }
-  };
-
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      const idToken = await result.user.getIdToken()
+      const user = await registerUser(idToken)
+
       dispatch(setUser({
-        name: result.user.displayName,
-        email: result.user.email
+        name: user?.name!,
+        email: user?.email!
       }));
       router.push('/');
     } catch (err) {
-      setError('Failed to sign in with Google.');
+      console.error(err)
+      setError('Failed to sign in with Google. ');
     }
   };
 
@@ -99,42 +91,7 @@ export default function LoginPage() {
               </Alert>
             )}
 
-            <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3 }}
-              >
-                Sign In
-              </Button>
-              
-              <Divider sx={{ my: 2 }}>OR</Divider>
-              
+            <Box component="form" sx={{ width: '100%' }}>
               <Button
                 fullWidth
                 variant="outlined"

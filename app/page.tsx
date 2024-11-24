@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <Container maxWidth="sm" sx={{ py: 8 }}>
-      <Box sx={{ textAlign: "center", mb: 6 }}>
+      <Box sx={{ textAlign: "center", mx: 'auto' }}>
         <Image
           src="https://nextjs.org/icons/next.svg"
           alt="Next.js Logo"
