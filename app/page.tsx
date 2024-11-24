@@ -68,6 +68,14 @@ export default function Home() {
             >
               Read our docs
             </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              href="/login"
+              size="large"
+            >
+              Sign In
+            </Button>
           </Stack>
         </Box>
 
