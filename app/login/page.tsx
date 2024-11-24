@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '../store/hooks';
+import { setUser } from '../store/features/authSlice';
 import {
   Container,
   Box,
@@ -11,9 +13,11 @@ import {
   TextField,
   Button,
   Paper,
-  Alert
+  Alert,
+  Divider
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import GoogleIcon from '@mui/icons-material/Google';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -21,13 +25,33 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
+  const dispatch = useAppDispatch();
+  const googleProvider = new GoogleAuthProvider();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push('/'); // Redirect to home page after successful login
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      dispatch(setUser({
+        name: result.user.displayName,
+        email: result.user.email
+      }));
+      router.push('/');
     } catch (err) {
       setError('Failed to login. Please check your credentials.');
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      dispatch(setUser({
+        name: result.user.displayName,
+        email: result.user.email
+      }));
+      router.push('/');
+    } catch (err) {
+      setError('Failed to sign in with Google.');
     }
   };
 
@@ -104,9 +128,21 @@ export default function LoginPage() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3 }}
               >
                 Sign In
+              </Button>
+              
+              <Divider sx={{ my: 2 }}>OR</Divider>
+              
+              <Button
+                fullWidth
+                variant="outlined"
+                startIcon={<GoogleIcon />}
+                onClick={handleGoogleSignIn}
+                sx={{ mb: 2 }}
+              >
+                Sign in with Google
               </Button>
             </Box>
           </Box>

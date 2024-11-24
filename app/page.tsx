@@ -1,6 +1,8 @@
+'use client';
 import Image from "next/image";
 import Counter from "./components/Counter";
-import { Container, Box, Typography, Button, Stack, Link } from '@mui/material';
+import { Container, Box, Typography, Button, Stack, Link, Paper } from '@mui/material';
+import { useAppSelector } from './store/hooks';
 import LaunchIcon from '@mui/icons-material/Launch';
 import CodeIcon from '@mui/icons-material/Code';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -23,6 +25,20 @@ export default function Home() {
           />
           
           <Counter />
+          
+          {useAppSelector((state) => state.auth.user) && (
+            <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: 400, textAlign: 'center' }}>
+              <Typography variant="h6" gutterBottom>
+                Welcome back!
+              </Typography>
+              <Typography>
+                {useAppSelector((state) => state.auth.user?.name || 'User')}
+              </Typography>
+              <Typography color="text.secondary" sx={{ mt: 1 }}>
+                {useAppSelector((state) => state.auth.user?.email)}
+              </Typography>
+            </Paper>
+          )}
 
           <Stack spacing={2} sx={{ typography: 'body1', fontFamily: 'var(--font-geist-mono)' }}>
             <Box display="flex" gap={1} alignItems="center">
