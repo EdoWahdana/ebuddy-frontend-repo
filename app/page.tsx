@@ -1,26 +1,15 @@
 "use client";
 import Image from "next/image";
-import {
-  Container,
-  Box,
-  Typography,
-  Button,
-  Paper,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Container, Box, Typography, Button, Paper } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "./store/hooks";
 import { clearUser } from "./store/features/authSlice";
 import { useRouter } from "next/navigation";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 export default function Home() {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSignOut = () => {
     dispatch(clearUser());
@@ -28,201 +17,84 @@ export default function Home() {
   };
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        py: 4,
-        background:
-          theme.palette.mode === "dark"
-            ? "linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%)"
-            : "linear-gradient(145deg, #f0f0f0 0%, #ffffff 100%)",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 6,
-          alignItems: "center",
-          position: "relative",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: -20,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "200%",
-            height: "100%",
-            background:
-              theme.palette.mode === "dark"
-                ? "radial-gradient(circle, rgba(25,118,210,0.1) 0%, rgba(0,0,0,0) 70%)"
-                : "radial-gradient(circle, rgba(25,118,210,0.05) 0%, rgba(255,255,255,0) 70%)",
-            zIndex: 0,
-          },
+    <Container maxWidth="sm" sx={{ py: 8 }}>
+      <Box sx={{ textAlign: "center", mb: 6 }}>
+        <Image
+          src="https://nextjs.org/icons/next.svg"
+          alt="Next.js Logo"
+          width={120}
+          height={25}
+          priority
+          className="dark:invert mb-6"
+        />
+        <Typography variant="h4" component="h1" gutterBottom>
+          Welcome to Your Dashboard
+        </Typography>
+        <Typography color="text.secondary" sx={{ mb: 4 }}>
+          A secure and efficient way to manage your applications
+        </Typography>
+      </Box>
+
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          p: 4, 
+          borderRadius: 2,
+          border: '1px solid',
+          borderColor: 'divider'
         }}
       >
-        <Box
-          component="main"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-            alignItems: "center",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <Box sx={{ transform: "scale(1.2)", mb: 4 }}>
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/next.svg"
-              alt="Next.js logo"
-              width={180}
-              height={38}
-              priority
-              style={{
-                filter:
-                  theme.palette.mode === "dark"
-                    ? "drop-shadow(0 0 0.5rem rgba(255,255,255,0.2))"
-                    : "none",
-              }}
-            />
+        {user ? (
+          <Box>
+            <Typography variant="h6" gutterBottom>
+              Hello, {user.name || 'User'}
+            </Typography>
+            <Typography color="text.secondary" sx={{ mb: 3 }}>
+              {user.email}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 4 }}>
+              You're currently signed in. Use the dashboard to manage your account and access your applications.
+            </Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleSignOut}
+              fullWidth
+            >
+              Sign Out
+            </Button>
           </Box>
-
-          {user ? (
-            <Paper
-              elevation={6}
-              sx={{
-                p: 4,
-                width: "100%",
-                maxWidth: 450,
-                textAlign: "center",
-                borderRadius: 2,
-                background:
-                  theme.palette.mode === "dark"
-                    ? "linear-gradient(145deg, #2d2d2d 0%, #1a1a1a 100%)"
-                    : "linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%)",
-                boxShadow:
-                  theme.palette.mode === "dark"
-                    ? "0 8px 32px rgba(0,0,0,0.3)"
-                    : "0 8px 32px rgba(0,0,0,0.1)",
-                transition: "transform 0.2s ease-in-out",
-                "&:hover": {
-                  transform: "translateY(-4px)",
-                },
-              }}
+        ) : (
+          <Box>
+            <Typography variant="h6" gutterBottom>
+              Get Started
+            </Typography>
+            <Typography color="text.secondary" sx={{ mb: 4 }}>
+              Sign in to access your personalized dashboard and manage your applications securely.
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              href="/login"
+              fullWidth
             >
-              <Typography variant="h5" gutterBottom fontWeight="bold">
-                Welcome back!
-              </Typography>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                {user.name || "User"}
-              </Typography>
-              <Typography color="text.secondary" sx={{ mb: 3 }}>
-                {user.email}
-              </Typography>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={handleSignOut}
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  borderRadius: 2,
-                  textTransform: "none",
-                  fontSize: "1.1rem",
-                }}
-              >
-                Sign Out
-              </Button>
-            </Paper>
-          ) : (
-            <Paper
-              elevation={6}
-              sx={{
-                p: 4,
-                width: "100%",
-                maxWidth: 450,
-                textAlign: "center",
-                borderRadius: 2,
-                background:
-                  theme.palette.mode === "dark"
-                    ? "linear-gradient(145deg, #2d2d2d 0%, #1a1a1a 100%)"
-                    : "linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%)",
-                boxShadow:
-                  theme.palette.mode === "dark"
-                    ? "0 8px 32px rgba(0,0,0,0.3)"
-                    : "0 8px 32px rgba(0,0,0,0.1)",
-              }}
-            >
-              <Typography variant="h5" gutterBottom fontWeight="bold">
-                Welcome to Next.js App
-              </Typography>
-              <Typography color="text.secondary" sx={{ mb: 3 }}>
-                Please sign in to continue
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                href="/login"
-                size="large"
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  borderRadius: 2,
-                  textTransform: "none",
-                  fontSize: "1.1rem",
-                }}
-              >
-                Sign In
-              </Button>
-            </Paper>
-          )}
-        </Box>
+              Sign In
+            </Button>
+          </Box>
+        )}
+      </Paper>
 
-        <Box
-          sx={{
-            mt: 4,
-            display: "flex",
-            gap: 2,
-            justifyContent: "center",
-          }}
+      <Box sx={{ mt: 4, textAlign: 'center' }}>
+        <Button
+          href="https://github.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          startIcon={<GitHubIcon />}
+          sx={{ textTransform: 'none' }}
         >
-          <IconButton href="https://github.com" icon={<GitHubIcon />} />
-          <IconButton href="https://linkedin.com" icon={<LinkedInIcon />} />
-        </Box>
+          View on GitHub
+        </Button>
       </Box>
     </Container>
   );
 }
-
-const IconButton = ({
-  href,
-  icon,
-}: {
-  href: string;
-  icon: React.ReactNode;
-}) => (
-  <Button
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    sx={{
-      minWidth: "auto",
-      width: 45,
-      height: 45,
-      borderRadius: "50%",
-      color: "text.secondary",
-      "&:hover": {
-        color: "primary.main",
-        backgroundColor: "action.hover",
-      },
-    }}
-  >
-    {icon}
-  </Button>
-);
